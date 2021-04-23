@@ -1,5 +1,7 @@
+
 import numpy as np
 import math as math
+
 
 """
 Created by Noah Binette 
@@ -26,6 +28,7 @@ def AverageTime():
 	for i in range(0, len(InputedTimes)):
 		adder = adder + InputedTimes[i]
 	return adder/len(InputedTimes)
+
 """
 This is simply a time saving addition so that if a user already has the time averaged they can enter it and move on to the rest of the entry and solution
 """
@@ -64,6 +67,7 @@ def OrginalDarcys():
 	for x, g in zip(outchecker1, outchecker2):
 		print(x, g, end='\n')
 	print("************************************")
+	return
 
 
 def ConfiedAquifer():
@@ -89,6 +93,7 @@ def ConfiedAquifer():
 	for x, g in zip(outchecker1, outchecker2):
 		print(x, g, end='\n')
 	print("************************************")
+	return 
 
 def Reynoldsnum():
 	print("Rynolds number equation: ")
@@ -110,6 +115,7 @@ def Reynoldsnum():
 	for x, g in zip(outchecker1, outchecker2):
 		print(x, g, end='\n')
 	print("***********************************")
+	return 
 
 
 #def DarcyRadial():
@@ -132,42 +138,113 @@ def TheisEq():
 	storativity=input("What is the storativity(S): ")
 	t=input("What is the time(t): ")
 	a=int(r)**2*float(storativity)
-	b = (4*int(T)*int(t))
+	b = (4*int(T)*float(t))
 	print(a)
 	print(b)
 	u=a/b
 	print(f"The u value is {float(u)}")
-	W = (-.5772) - np.log(u) + u - ((u**2)/(2*math.factorial(2))) + ((u**3)/(2*math.factorial(3))) - ((u**4)/(4*math.factorial(4))) +((u**5)/(5*math.factorial(5)))
+
+	W = (-np.euler_gamma) - np.log(u) + u - ((u**2)/(2*math.factorial(2))) + ((u**3)/(2*math.factorial(3))) - ((u**4)/(4*math.factorial(4))) +((u**5)/(5*math.factorial(5)))
+	
 	print (round(W,4))
 	Q=input("What is the pumping rate/discharge (Q): ")
 	a1 = 4 * math.pi * int(T)
 	print(a1)
 	final =(int(Q) /(4 * math.pi * int(T)))*float(W)
 	print(round(final,3))
+	return
 
-	
+def Thiem():
+	print("Thiem Equation for the Confied Aquifer T Value ft^2/day" )
+	Q=input("What is the total discharge(Q) ft^3/day: ")
+	h1 = input("What is the head 1 value: ")	
+	h2 = input("What is the head 2 value: ")
+	r1 = input("What is the radius distance  1 value: ")	
+	r2 = input("What is the radius distance  2 value: ")
+	loged =np.log(float(r2)/float(r1))
+	head = 2*math.pi*(float(h2)-float(h1))
+	T= (int(Q)/head)*float(loged)
+	print(f"This is the Transmissivity value: {round(T,4)} ")
+	return
+
+def Thiem_Hydro_Conductivity():
+	print("Thiem Equation for the Hydro Conductivity" )
+	Q=input("What is the total discharge(Q) ft^3/day: ")
+	b=input("What is the thickness of the aquifer: ")
+	h1 = input("What is the head 1 value: ")	
+	h2 = input("What is the head 2 value: ")
+	r1 = input("What is the radius distance  1 value: ")	
+	r2 = input("What is the radius distance  2 value: ")
+
+	b_1 = int(h1) - int(b) 
+	b_2 = int(h2) - int(b)
+
+	base=(b_2**2 - b_1**2)
+	K=(int(Q)/math.pi*(base)) * np.log(r2/r1) 
+	print(K)
+	return 
 
 
-print("***Hydro Equation Calculator Script***")
-print("1 : Normal Darcy to find the K value")
-print("2 : Equation for Steedy flow in a Confied Aquifer")
-print("3 : Reynolds number")
-print("4 : Darcy Radial")
-print("5 : Theis Equation")
-
-pickle=input("Which Hydro equation would you like to use?")
 
 
-if pickle == "1":
-	OrginalDarcys()
-elif pickle == "2":
-	ConfiedAquifer()
-elif pickle == "3":
-	Reynoldsnum()
-elif pickle == "4":
-	DarcyRadial()
-elif pickle == "5":
-	TheisEq()
+"""
+def ConofSoultue():
+	C_o=input("Intial Solute Concentration: ")
+	L=input("The flow path length: ")
+	v_x=input("Average linear ground-water velocity: ")
+	t=input("Time since the release of the solute: ")
+	D_L=input("The longitudinal dispersion coefficent: ")
+
+	A=math.erfc(L-(v_x*t)/2*math.sqrt(D_L*t))
+	print(A)
+	B=math.exp(L - (v_x*t)/D_L)
+	print(B)
+	C=math.erfc(L + (v_x*t)/2 * math.sqrt(D_L*t))
+	print(C)
+
+	FinalC=C_o/2(A+B*C)
+	print(FinalC)
+"""
+
+def entrance():
+	while True: 
+
+		print("***Hydro Equation Calculator Script***")
+		print("1 : Normal Darcy to find the K value ")
+		print("2 : Equation for Steedy flow in a Confied Aquifer")
+		print("3 : Reynolds number ")
+		print("4 : Darcy Radial ")
+		print("5 : Theis Equation ")
+		print("6 : Theim Equation for a confied Aquifer finding T ")
+		print("7 : Concentration of a soultue ")
+		print("8 : Thiem Hydro Conductivty ")
+		print("9 : EXIT")
+
+		pickle=input("Which Hydro equation would you like to use?")
+
+
+		if pickle == "1":
+			OrginalDarcys()
+		elif pickle == "2":
+			ConfiedAquifer()
+		elif pickle == "3":
+			Reynoldsnum()
+		elif pickle == "4":
+			DarcyRadial()
+		elif pickle == "5":
+			TheisEq()
+		elif pickle == "6":
+			Thiem()
+		elif pickle == "7":
+			ConofSoultue()
+		elif pickle == "8":
+			Thiem_Hydro_Conductivity()
+		elif pickle == "9":
+			print("Exited Successfully kinda..")
+			break
+
+
+entrance()
 
 
 
